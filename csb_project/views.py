@@ -26,8 +26,9 @@ class View:
         cursor = db.cursor()
         passwd = request.POST.get("password")
         encrypted_password= md5(passwd.encode()).hexdigest()
-        cursor.execute("insert into users (username, password) values ('{}', '{}') returning id;".format(user, encrypted_password))
+        cursor.execute("insert into users (username, password, admin) values ('{}', '{}', 0) returning id;".format(user, encrypted_password))
         id=cursor.fetchone()[0]
+        cursor.close()
         db.commit()
         res=HttpResponseRedirect("/app")
         res.set_cookie("id",id)
