@@ -1,0 +1,18 @@
+<head></head>
+</head>
+<body>
+    <h1>Register</h1>
+    <form action="/register" method="POST">
+        {% csrf_token %} 
+        <div class="username-container input-container">
+            <h2>Username</h2>
+            <input name="username"></input>
+        </div>
+        <div class="username-container input-container">
+            <h2>Password</h2>
+            <input name="password"></input>
+        </div>
+        <button type="submit">Register</button>
+        <p>Or <a href="/login">Log in</a></p>
+    </form>
+</body>

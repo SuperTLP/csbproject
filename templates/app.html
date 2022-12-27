@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+    <style>
+        .top-bar {
+            width: 100%;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+        }
+        .topbar h1 {
+            margin: 0px 50px;
+        }
+        .create-message-container input {
+            width: 100%;
+            height: 20px;
+            font-size: 16px;
+        }
+        .create-message-container textarea {
+            width: 100%;
+            min-height: 100px;
+            font-size: 16px;
+        }
+        .create-message-container {
+            max-width: 500px;
+
+            margin: 0px auto;
+        }
+        .own-messages-container {
+        }
+        .message-container {
+            max-width: 500px;
+            margin: 0px auto;
+            background-color: rgb(221, 221, 221);
+            padding: 5px;
+            border-radius: 6px;
+        }
+        .message-container p {
+            padding:0px;
+            width: 100%;
+            text-align:left;
+        }
+        .search-container {
+        }
+        .search-container input {
+            border:2px solid rgb(138, 138, 138);
+            color:black;
+            display:block;
+            margin: 5px auto;
+        }
+        .own-messages-container h2 {
+            margin: 50px auto;
+            text-align:center;
+        }
+        .message-container {
+            margin-top:5px;
+        }
+    </style>
+    <body>
+        <div class="top-bar">
+            <a href="/logout"><button>Log Out</button></a>
+            <h1>Chat App</h1>
+            <h2>Logged in as {{user}}</h2>
+        </div>
+        <form class="create-message-container" action="/send_message" method="POST">
+            {% csrf_token %}
+            <select name="receiver_id">
+                {% for  name, id in names %}
+                <option value={{id}}><h1>{{name}}</h1></option>
+                {% endfor %}
+            </select>
+            <input name="title" placeholder="title of your message"/>
+            <textarea name="content" placeholder="your message"></textarea>
+            <button type="submit">Send</button>
+        </form>
+        <form class="search-container">
+            <input type="search" name="keyword" placeholder="Search by title">
+        </form>
+        <div class="own-messages-container">
+            <h2>Received messages</h2>
+            {% for sender, title, content in messages %}
+            <div class="message-container">
+                <p>from: {{sender}}</p>
+                <h3> {{title}}</h3>
+                <p>{{content}}</p>
+            </div>
+            {% endfor %}
+
+        </div>
+    </body>
+</html>
