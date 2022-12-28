@@ -27,6 +27,9 @@ class View:
         passwd = request.POST.get("password")
         encrypted_password= md5(passwd.encode()).hexdigest()
         cursor.execute("insert into users (username, password, admin) values ('{}', '{}', 0) returning id;".format(user, encrypted_password))
+        #fix:
+        # cursor.execute("insert into users (username, password, admin) values (?, ?, 0) returning id;", [user, encrypted_password])
+
         id=cursor.fetchone()[0]
         cursor.close()
         db.commit()
@@ -47,12 +50,21 @@ class View:
         except Exception:
             return redirect("/")
         db.commit()
+
         messages=db.cursor().execute(
             """
             select username, title, content 
             from messages join users on messages.sender_id = users.id  where receiver_id='{}'
             and title like '%{}%'"""
         .format(id, keyword)).fetchall()
+
+        #fix:
+        # messages=db.cursor().execute(
+        #     """
+        #     select username, title, content 
+        #     from messages join users on messages.sender_id = users.id  where receiver_id=?
+        #     and title like ?""", (id, "%"+keyword+"%")).fetchall()
+
         return TemplateResponse(request, "app.html", {"names":names, "user":user, "messages":messages})
 
     def logout(self, request):
