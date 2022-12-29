@@ -1,4 +1,9 @@
-<head></head>
+<head>
+    <style>
+        .error-message {
+            color:red;
+        }
+    </style>
 </head>
 <body>
     <h1>Register</h1>
@@ -15,4 +20,5 @@
         <button type="submit">Register</button>
         <p>Or <a href="/login">Log in</a></p>
     </form>
+    <h4 class="error-message">{{error_message}}</h4>
 </body>
